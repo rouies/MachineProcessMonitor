@@ -46,11 +46,13 @@ win32{
 macx{
     SOURCES += processmanager_mac.cpp
     QMAKE_LFLAGS += -F /System/Library/Frameworks/CoreFoundation.framework/
-    LIBS += -framework CoreFoundation
-    DESTDIR += "./bin"
+    LIBS += -framework CoreFoundation 
 }
 
-RESOURCES += \
-    config.qrc
+
+DESTDIR += "./bin"
+MOC_DIR += "./tmp"
+OBJECTS_DIR += "./tmp"
+
 
 

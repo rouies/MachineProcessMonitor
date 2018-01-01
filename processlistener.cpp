@@ -109,7 +109,7 @@ void ProcessListener::appendProcess(QString processName, QString filePath)
     strcpy(pns,data);
 #endif
 #ifdef Q_OS_WIN32
-    strcyp_s
+    strcyp_s(pns,pn.size()+1,data);
 #endif
 
     filter->processName = pns;
@@ -118,6 +118,10 @@ void ProcessListener::appendProcess(QString processName, QString filePath)
 #ifdef Q_OS_MACX
     processName = processName.section('/',-1);
 #endif
+#ifdef Q_OS_WIN32
+    processName = processName.section('.',-2);
+#endif
+
     //创建传输队列
     QString queuePath = QString("%1%2.queue").arg(filePath).arg(processName);
     FileRecordQueue* queue = FileRecordQueue::createFileRecordQueue(processName,queuePath,sizeof(qint64) + 1,this->queueSize,this);
@@ -244,10 +248,6 @@ void ProcessListener::checkNetwork(const QHostInfo &host)
                 }
             }
         }
-    }
-    else
-    {
-        qDebug() << "网络连接失败";
     }
 }
 
