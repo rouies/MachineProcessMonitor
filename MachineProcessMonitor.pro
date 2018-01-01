@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +25,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    filerecordqueue.cpp \
+    lockfile.cpp \
+    processlistener.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    processmanager.h \
+    filerecordqueue.h \
+    lockfile.h \
+    processlistener.h
 
 FORMS += \
         mainwindow.ui
+win32{
+    SOURCES += processmanager_win.cpp
+}
+
+macx{
+    SOURCES += processmanager_mac.cpp
+    QMAKE_LFLAGS += -F /System/Library/Frameworks/CoreFoundation.framework/
+    LIBS += -framework CoreFoundation
+    DESTDIR += "./bin"
+}
+
+RESOURCES += \
+    config.qrc
+
+
